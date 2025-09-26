@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Review{% endblock title %}
+{% block header %}Review{% endblock header %}
+
+{% block content %}
+<section id="review-edit">
+<section id="orig-review">
+    <h2>Original review</h2>
+    <p>Title: {{ review.title }}</p>
+    <p>Rating: {{ review.rating }}★</p>
+    <p>Text: {{ review.text }}</p>
+</section>
+<section id="review-create">
+    <h2>Edit review</h2>
+    {% if form %}
+    <form class="review-form" method="post" style="align-items: center;">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" >Save</button><a href="{%url 'reviews' %}" style="color: #333;">Or go to reviews page</a></p>
+    </form>
+    {% endif %}
+</section>
+</section>
+{% endblock content %}

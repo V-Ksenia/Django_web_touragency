@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up Step 2</title>
+    <link rel="stylesheet" href="/static/css/reglogin.css">
+</head>
+<body>
+    <section class="form-wrapper" style="max-width: 400px;">
+        <h2>Sign Up</h2>
+        <p>Almost done</p>
+        <form method="POST" id="reg" novalidate style="flex-direction: row; flex-wrap: wrap; justify-content: center;">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }} {{ field }}
+                    {% if field.errors %}
+                        <ul class="error-list">
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </form>
+        <button type="submit" form="reg">Register</button>
+    </section>
+</body>
+</html>

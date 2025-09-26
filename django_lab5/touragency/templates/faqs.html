@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}FAQs{% endblock title %}
+{% block header %}FAQs{% endblock header %}
+
+{% block content %}
+<section id="faq">
+    <h1>FAQs</h1>
+    <div class="faq-wrapper">
+        {% for faq in faqs %}
+        <div class="faq-container">
+            <h2>{{ faq.question }}</h2>
+            <details>
+                <summary>See the answer</summary>
+                <p>{{ faq.answer }}</p>          
+            </details>
+            <p>Asked: {{ faq.date }}</p>
+        </div>
+        {% endfor %}
+</div>
+</section>
+{% endblock content %}

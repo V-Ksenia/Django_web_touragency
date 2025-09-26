@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export Analysis</title>
+</head>
+<body>
+    <h1>Export Analysis</h1>
+    <form id="exportForm">
+        <label for="product">Product Name:</label>
+        <input type="text" id="product" required><br>
+
+        <label for="country">Country:</label>
+        <input type="text" id="country" required><br>
+
+        <label for="volume">Volume (pcs):</label>
+        <input type="number" id="volume" required><br>
+
+        <button type="submit">Add Export</button>
+    </form>
+
+    <h2>Exports</h2>
+    <ul id="exportList"></ul>
+
+    <h2>Results</h2>
+    <div id="results"></div>
+
+    <script>
+        // // Базовый класс
+        // function Export(product, country, volume) {
+        //     this.product = product;
+        //     this.country = country;
+        //     this.volume = volume;
+        // } //по умолчанию export.prototype == { constructor: Export }
+
+        // Export.prototype.getProduct = function() {
+        //     return this.product;
+        // };
+
+        // Export.prototype.getCountry = function() {
+        //     return this.country;
+        // };
+
+        // Export.prototype.getVolume = function() {
+        //     return this.volume;
+        // };
+
+        // Export.prototype.toString = function() {
+        //     return `Product: ${this.product}, Country: ${this.country}, Volume: ${this.volume} pcs`;
+        // };
+
+        // //Наследник
+        // function ExportAnalysis() {
+        //     this.exports = [];
+        // }
+
+        // ExportAnalysis.prototype = Object.create(Export.prototype);
+        // ExportAnalysis.prototype.constructor = ExportAnalysis;
+
+        
+        // ExportAnalysis.prototype.addExport = function(product, country, volume) {
+        //     const newExport = new Export(product, country, volume);
+        //     this.exports.push(newExport);
+        // };
+
+        
+        // ExportAnalysis.prototype.displayExports = function() {
+        //     const exportList = document.getElementById('exportList');
+        //     exportList.innerHTML = '';
+        //     this.exports.forEach(exp => {
+        //         const li = document.createElement('li');
+        //         li.textContent = exp.toString();
+        //         exportList.appendChild(li);
+        //     });
+        // };
+
+
+        // ExportAnalysis.prototype.analyzeProduct = function(productName) {
+        //     const filteredExports = this.exports.filter(exp => exp.getProduct() === productName);
+        //     const countries = [...new Set(filteredExports.map(exp => exp.getCountry()))];
+        //     const totalVolume = filteredExports.reduce((sum, exp) => sum + exp.getVolume(), 0);
+
+        //     const resultsDiv = document.getElementById('results');
+        //     if (filteredExports.length > 0) {
+        //         resultsDiv.innerHTML = `
+        //             <p>Countries importing "${productName}": ${countries.join(', ')}</p>
+        //             <p>Total export volume: ${totalVolume} pcs</p>
+        //         `;
+        //     } else {
+        //         resultsDiv.innerHTML = `<p>No data found for "${productName}".</p>`;
+        //     }
+        // };
+
+        
+
+        // const analysis = new ExportAnalysis();
+
+        // document.getElementById('exportForm').addEventListener('submit', function(event) {
+        //     event.preventDefault();
+        //     const product = document.getElementById('product').value;
+        //     const country = document.getElementById('country').value;
+        //     const volume = parseInt(document.getElementById('volume').value, 10);
+
+        //     analysis.addExport(product, country, volume);
+        //     analysis.displayExports();
+        //     analysis.analyzeProduct(product);
+        // });
+
+
+        class Export {
+            constructor(product, country, volume) {
+                this.product = product;
+                this.country = country;
+                this.volume = volume;
+            }
+
+            get gproduct() {
+                return this.product;
+            }
+
+            get gcountry() {
+                return this.country;
+            }
+
+            get gvolume() {
+                return this.volume;
+            }
+
+            toString() {
+                return `Product: ${this.product}, Country: ${this.country}, Volume: ${this.volume} pcs`;
+            }
+        }
+
+        class ExportAnalysis extends Export {
+            constructor() {
+                super();
+                this.exports = [];
+            }
+
+            addExport(product, country, volume) {
+                const newExport = new Export(product, country, volume);
+                this.exports.push(newExport);
+            }
+
+            displayExports() {
+                const exportList = document.getElementById('exportList');
+                exportList.innerHTML = '';
+                this.exports.forEach(exp => {
+                    const li = document.createElement('li');
+                    li.textContent = exp.toString();
+                    exportList.appendChild(li);
+                });
+            }
+
+            analyzeProduct(productName) {
+                const filteredExports = this.exports.filter(exp => exp.gproduct === productName);
+                const countries = [...new Set(filteredExports.map(exp => exp.gcountry))];
+                const totalVolume = filteredExports.reduce((sum, exp) => sum + exp.gvolume, 0);
+
+                const resultsDiv = document.getElementById('results');
+                if (filteredExports.length > 0) {
+                    resultsDiv.innerHTML = `
+                        <p>Countries importing "${productName}": ${countries.join(', ')}</p>
+                        <p>Total export volume: ${totalVolume} pcs</p>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `<p>No data found for "${productName}".</p>`;
+                }
+            }
+        }
+
+
+        const analysis = new ExportAnalysis();
+
+        document.getElementById('exportForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const product = document.getElementById('product').value;
+            const country = document.getElementById('country').value;
+            const volume = parseInt(document.getElementById('volume').value, 10);
+
+            analysis.addExport(product, country, volume);
+            analysis.displayExports();
+            analysis.analyzeProduct(product);
+        });
+
+        
+    </script>
+</body>
+</html>

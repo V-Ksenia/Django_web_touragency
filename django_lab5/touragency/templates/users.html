@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Users{% endblock title %}
+{% block header %}Users{% endblock header %}
+
+{% block content %}
+<section>
+    {% for user in users %}
+    <div itemscope itemtype="http://schema.org/Person">
+        <p><strong>{{ user.username }}</strong></p>
+        <p>id: {{ user.id }}</p>
+        <p><span itemprop="name">first name: {{ user.first_name }}</span></p>
+        <p>last name: {{ user.last_name }}</p>
+        <p>age: {{ user.age }}</p>
+        <p>phone number: {{ user.phone_number }}</p>
+        <hr>
+    </div>
+    {% endfor %}
+</section>
+{% endblock content %}

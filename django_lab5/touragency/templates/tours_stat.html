@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Tours Statistic{% endblock title %}
+{% block header %}Tours Statistic{% endblock header %}
+
+{% block content %}
+<section>
+    <h1>Tours</h1>
+    <p><strong>A-Z</strong></p>
+    {% for tour in tours%}
+    <div>
+        <p>{{ tour.name }}, price: {{ tour.price }}$</p>
+    </div>
+    {% endfor %}
+    <p>Most popular: <strong>{{ most_popular_tour.tour__name }}</strong>, Orders: <strong>{{ most_popular_tour.order_count}}</strong></p>
+</section>
+{% endblock content %}

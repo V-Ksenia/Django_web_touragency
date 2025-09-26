@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Review Create{% endblock title %}
+{% block header %}Review Create{% endblock header %}
+
+{% block content %}
+<section id="review-create">
+    <h1>Add review</h1>
+    <form class="review-form" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" >Save</button><a href="{%url 'reviews' %}" style="color: #333; text-align: center;">Or go to reviews page</a>
+    </form>
+</section>
+{% endblock content %}

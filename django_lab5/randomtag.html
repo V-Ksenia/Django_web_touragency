@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Разное</title>
+    <style>
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+.table-container {
+
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    min-width: 500px;
+    text-align: center;
+}
+
+
+.table-container h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    empty-cells: hide;
+    /* border-collapse: collapse; */
+}
+
+th {
+    background-color: #2f6f38;
+    color: white;
+    font-weight: bold;
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+td {
+    border-radius: 10px;
+    padding: 15px;
+    border: 1px solid #ffffff;
+    text-align: center;
+    vertical-align: middle;
+}
+
+td:empty{
+    background-color: #46a85d;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #f5f5f5;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #e0e0e0;
+}
+
+tbody tr:hover {
+    background-color: #d0d0d0;
+}
+
+td:nth-child(4) {
+    font-weight: bold;
+    color: #46a85d;
+}
+
+q:lang(en) {    
+    quotes: "\201C" "\201D";    
+}   
+q:lang(ru) { 
+    quotes: "\00AB" "\00BB";    
+}
+        [class^="air"] {
+            border: 2px solid rgb(131, 0, 81);
+            padding: 10px;
+            display: inline-block;
+            margin: 10px;
+        }
+
+       
+        [class$="plane"] {
+            background-color: rgb(255, 185, 229);
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        a:link {
+            color: rgb(166, 255, 139);
+            text-decoration: none;
+        }
+
+        a:visited {
+            color: rgb(82, 82, 82);
+        }
+
+        a:active {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Разное</h1>
+
+    <h2>Цитата</h2>
+    <q cite="https://ru.citaty.net/tsitaty/" lang="ru">
+        Будущее принадлежит тем, кто верит в красоту своей мечты. — Элеонора Рузвельт
+    </q>
+
+    <q lang="en">
+        The future belongs to those who believe in the beauty of their dreams. — Eleanor Roosevelt
+    </q>
+
+    <div class="table-container">
+        <h2>Employee Performance Report</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Role</th>
+                    <th>Performance Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>John Doe</td>
+                    <td>Sales</td>
+                    <td>Manager</td>
+                    <td>95%</td>
+                </tr>
+                <tr>
+                    <td>Jane Smith</td>
+                    <td>Marketing</td>
+                    <td>Coordinator</td>
+                    <td>88%</td>
+                </tr>
+                <tr>
+                    <td>Alex Johnson</td>
+                    <td>HR</td>
+                    <td>Specialist</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Emily Davis</td>
+                    <td>Development</td>
+                    <td>Team Lead</td>
+                    <td>90%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="airplane">I start with AIR and end with PLANE</div>
+
+    <div class="big-plane">I only end with PLANE</div>
+
+    <a href="https://tripadvicer.com">Посетить сайт</a><br>
+    <a href="https://booking.com">Посетить другой сайт</a>
+</body>
+</html>

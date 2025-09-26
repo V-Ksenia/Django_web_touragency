@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Hotels Statistic{% endblock title %}
+{% block header %}Hotels Statistic{% endblock header %}
+
+{% block content %}
+<article>
+    <h1>Hotels</h1>
+    <p><strong>Country A-Z</strong></p>
+    {% for hotel in hotels%}
+    <div>
+        <p><b>{{ hotel.name }}</b>, {{ hotel.stars }} stars</p>
+        <p><i>{{ hotel.country.name }}:
+            {% for climate in hotel.country.climate.all %}
+                {{ climate.climate }}
+            {% endfor %}
+        </i>, {{ hotel.price_per_night }}$</p>
+    </div>
+    {% endfor %}
+</article>
+<hr>
+<article>
+    <h3>Average Price: {{ average_price }} $</h3>
+    <h3>Median Price: {{ median_price }} $</h3>
+</article>
+{% endblock content %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}News{% endblock title %}
+{% block header %}News{% endblock header %}
+
+{% block content %}
+<section style="display: flex; flex-direction: column; align-items: center;">
+    <h1 style="color: rgb(240,239,239); font-size: 40px;">News</h1>
+<section class="news-list">
+    {% for new in news %}
+    <article class="news-item">
+        <img src="{{ new.image.url }}" alt="{{ new.title }}" class="news-image">
+        <div class="news-content">
+            <h2>{{ new.title }}</h2>
+            <p class="news-summary">{{ new.content }}</p>
+            <p><a href="{% url 'news_detail' pk=new.id %}" target="_blank" class="read-more">Read more</a></p>
+            <p class="news-date">Posted: {{ new.date }}</p>
+        </div>
+    </article>
+    {% endfor %}
+</section>
+</section>
+{% endblock content %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Vacancies{% endblock title %}
+{% block header %}Vacancies{% endblock header %}
+
+{% block content %}
+<section id="vacancies">
+    <h2 style="font-size: 30px; color: rgb(240,239,239)">We are looking for</h2>
+    {% for vac in vacancies %}
+        <div class="vac-container">
+            <h2>{{ vac.name }}</h2>
+            <p>{{ vac.description }}</p>
+        </div>
+    {% endfor %}
+</section>
+{% endblock content %}
+
+

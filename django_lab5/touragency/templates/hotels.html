@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Hotels{% endblock title %}
+{% block header %}Hotels{% endblock header %}
+
+{% block content %}
+<section>
+    {% for hotel in hotels %}
+    <div>
+        <p>name: <b>{{ hotel.name }}</b></p>
+        <p>country: {{ hotel.country}}</p>
+        <p>{{ hotel.stars_sign}}</p>
+        <p>price per night: {{ hotel.price_per_night }}$</p>
+        <hr>
+    </div>
+    {% endfor %}
+</section>
+{% endblock content %}

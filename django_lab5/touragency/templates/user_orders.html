@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Orders{% endblock title %}
+{% block header %}Your Orders{% endblock header %}
+
+{% block content %}
+<section style="
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+align-items: center;
+margin: 20px;
+gap: 20px;
+">
+    {% for order in orders %}
+    <a href="{% url 'user_spec_order' pk=user.id jk=order.number %}" class="tour-container">
+        <h2>Order number: {{ order.number }}</h2>
+        <p>Tour name: {{ order.tour_name }}</p>
+        <p>Price: {{ order.price }}$</p>
+        <p>Amount: {{ order.amount }}</p>
+        <p>Departure date: {{ order.departure_date }}</p>
+        <p>Creation date: {{ order.creation_date }}</p>
+    </a>
+    {% empty %}
+        <p>It looks like you haven't made any orders yet :&#40;</p>
+    {% endfor %}
+
+</section>
+{% endblock content %}

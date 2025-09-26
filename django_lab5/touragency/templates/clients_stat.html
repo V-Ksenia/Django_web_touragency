@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Clients{% endblock title %}
+{% block header %}Clients{% endblock header%}
+
+{% block content %}
+<article>
+    <h3>A-Z</h3>
+    {% for client in clients%}
+    <div>
+        <p><b>{{ client.first_name }} {{ client.last_name }}</b>, {{ client.age }} years<p>
+        <p>{{ client.address}}, {{ client.phone_number }}</p>
+    </div>
+    {% endfor %}
+</article>
+<hr>
+<article>
+    <h3>Average Age: {{ average_age }} years</h3>
+    <h3>Median Age: {{ median_age }} years</h3>
+</article>
+<hr>
+<article>
+    {% for client in clients%}
+        <p><b>{{ client.username }}</b> bought:<br/>
+            {% for order in client.orders.all %}
+                <b>{{ order.amount }}</b> {{order.tour.name}}, <i>Total: {{ order.price}}$</i><br/>
+            {% endfor %} </p>
+    {% endfor %}
+</article>
+{% endblock content %}

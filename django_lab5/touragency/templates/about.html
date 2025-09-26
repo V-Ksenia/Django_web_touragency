@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Company info{% endblock title %}
+{% block header %}Company info{% endblock header %}
+
+{% block content %}
+<section id="about">
+    <section>
+        <h2>About Us.</h2>
+        <p>{{ company_info.text }}</p>
+    </section>
+    <div class="logo">
+        <img src=" /media/images/logo.png " alt="logo"
+        style="
+        width: 100px;
+        ">
+    </div>
+    <article class="years">
+        <h2>Years of history</h2>
+        <div class="years-container">
+            <div>
+                <p><time datetime="2024-04-29">April 29, 2024:</time> Creation of our beautiful site</p>
+            </div>
+            <div>
+                <p><time datetime="2024-04-30">April 30, 2024:</time> First clients visited our place</p>
+            </div>
+            <div>
+                <p><time datetime="2024-05-02">May 2, 2024:</time> A lot of positive review already</p>
+            </div>
+            <div>
+                <p><time datetime="2024-09-10">September 10, 2024:</time> Made our website more functional</p>
+            </div>
+            <div>
+                <p><time datetime="2024-09-15">September 15, 2024:</time> Starting customisation</p>
+            </div>
+            <div>
+                <p><time datetime="2024-09-22">Now, 2024:</time> Design coming soon!</p>
+            </div>
+        </div>
+    </article>
+    <div class="video-container">
+        <iframe width="560" height="315" 
+            src="https://www.youtube.com/embed/Zcx247sfxPM" 
+            title="YouTube video player" 
+            allow="autoplay" 
+            allowfullscreen>
+        </iframe>
+    </div>
+    <article>
+        <div class="certificate">
+            <h2>Certificate of Excellence</h2>
+            <h3>Presented to</h3>
+            <h3>Creator of project</h3>
+            <p>This certificate is awarded to <strong>Creator of project</strong> for their exceptional performance and contributions to the success of Company name.</p>
+            <p>We commend your dedication and professionalism in providing top-tier service, ensuring unforgettable travel experiences for our valued clients.</p>
+            <p>Given this day, <time datetime="2024-09-12"> September 12, 2024 </time></p>
+            <p>____________________________</p>
+            <p>by <abbr title="Company That Gives Certificates">CTGC</abbr></p>
+            <p>Creator, TripVoyage</p>
+        </div>
+        <a href="/media/certificate_strweb.txt" download="Certificate of Excellence.txt">Download certificate</a>
+        <hr>
+    </article>
+
+    <address>
+        <h2>Contact Us</h2>
+        <ul>
+            <li>Email: tripvoyage@gmail.com</li>
+            <li>Phone: +375291111111</li>
+        </ul>
+    </address>
+</section>
+
+{% endblock content %}

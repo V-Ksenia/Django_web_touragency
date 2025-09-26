@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block header %}Promocodes{% endblock header %}
+{% block title %}Promocodes{% endblock title %}
+
+{% block content %}
+<section id="promocodes">
+    {% for promo in promocodes %}
+    <div class="promo">
+        <h3>{{ promo.discount }}</h3>
+        <p><b>{{ promo.code }}</b></p>
+        <hr>
+    </div>
+    {% endfor %}
+</section>
+<section id="user-promocodes">
+    <h2>Used discounts</h2>
+    <ul>
+    {% for used in usedpromos %}
+        {% if used.user_id == request.user.id %}
+            <li>{{ used.promocode.code}}</li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+</section>
+{% endblock content %}

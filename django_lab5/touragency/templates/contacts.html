@@ -1,0 +1,613 @@
+{% extends "base.html" %}
+{% block title %}Contacts{% endblock title %}
+{% block header %}Contacts{% endblock header %}
+{% block style %}
+<style>
+    #contactSec {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    #contactTable {
+        width: 80%;
+        margin: 50px auto 20px auto;
+        border-collapse: collapse;
+        background-color: #eaeaea;
+        color:rgb(23, 23, 23);
+        font-size: 20px;
+    }
+    #contactTable th, td {   
+        padding: 8px;
+        text-align: left;
+    }
+    #contactTable th {
+        background-color: #444f48;
+        color: #eaeaea;
+        cursor: pointer;
+    }
+    #contactTable th span {
+        margin-left: 5px;
+        font-size: 0.8em;
+    }
+    #contactTable img {
+        max-height: 80px;
+        max-width: 80px;
+        border-radius: 50%;
+    }
+
+
+    #contactInfo {
+        text-align: center;
+        background-color: #eaeaea;
+        width: 200px;
+        height: fit-content;
+        border-radius: 20px;
+        padding: 20px;
+        margin: 50px 15px 15px 15px;
+    }
+    #contactInfo img {
+        width: 80px;
+        height: 80px;
+    }
+
+    #awardButton {
+        position: absolute;
+        border-radius: 0;
+        right: 220px;
+    }
+
+    #addButton {
+        position: absolute;
+        border-radius: 0;
+        right: 160px;
+    }
+
+#addForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    width: 400px;
+    padding: 20px;
+    background-color: #30403e;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    color: #eaeaea;
+    margin: 20px auto;
+}
+
+#addForm h3 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #f0efef;
+    text-align: center;
+}
+
+#addForm form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+#addForm label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #93a898;
+}
+
+#addForm input[type="text"],
+#addForm input[type="email"],
+#addForm input[type="file"] {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #93a898;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    background-color: #2b3c3a;
+    color: #eaeaea;
+}
+
+#addForm input[type="text"]:focus,
+#addForm input[type="email"]:focus,
+#addForm input[type="file"]:focus {
+    outline: none;
+    border-color: #f0efef;
+    box-shadow: 0 0 5px rgba(240, 239, 239, 0.8);
+}
+
+#addForm button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #f0efef;
+    background-color: #93a898;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#addForm button:hover {
+    background-color: #76998f;
+}
+
+#addForm button:disabled {
+    background-color: #5c6f6c;
+    cursor: not-allowed;
+}
+
+#addForm p#validationResult {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #f08080;
+    text-align: center;
+}
+
+
+</style>
+{% endblock style %}
+{% block content %}
+<div class="filter-container" style="margin: 20px 0 0 20px">
+    <input type="text" id="filterInput" placeholder="Enter a substring you want to find..." style="width: 300px; border-radius: 0;">
+    <button id="filterButton" style="border-radius: 0;">Find</button>
+</div>
+<button id="addButton" onclick="showForm()">+</button>
+
+<div id="addForm" style="display: none;">
+    <h3 style="color:#eaeaea; font-size: 22px;">Enter contact info</h3>
+    <form id="contactForm">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" required><br><br>
+        
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" required><br><br>
+
+        <label for="description">Description:</label>
+        <input type="text" id="description" required><br><br>
+
+        <label for="phoneNumber">Phone:</label>
+        <input type="text" id="phoneNumber" required><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email"><br><br>
+
+        <label for="photo">Photo:</label>
+        <input type="file" id="photo" accept=".png, .jpg, .jpeg"><br><br>
+
+        <button type="submit" id="addContactButton" disabled>Add</button>
+    </form>
+    <p id="validationResult" style="color: red;"></p>
+</div>
+<div>
+    <button id="awardButton" onclick="chooseAward()">Award</button>
+</div>
+
+<div id="awardMessage" style="display: none; margin-top: 20px; font-weight: bold; font-size: 20px; color: rgb(189, 243, 159); margin-left: 20px;"></div>
+
+<section id="contactSec">
+
+<table id="contactTable">
+    <thead>
+        <tr>
+            <th data-column="select">Select</th>
+            <th data-column="fullName" data-order="asc">Full Name <span></span></th>
+            <th data-column="description" data-order="asc">Description <span></span></th>
+            <th data-column="phone">Phone</th>
+            <th data-column="email" data-order="asc">Email <span></span></th>
+            <th data-column="photo">Photo</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+<div id="contactInfo" style="display: none;">
+    <h3>Contact Details</h3>
+    <p><strong>Full Name:</strong> <span id="detailsName"></span></p>
+    <p><strong>Description:</strong> <span id="detailsDescription"></span></p>
+    <p><strong>Phone:</strong> <span id="detailsPhone"></span></p>
+    <p><strong>Email:</strong> <span id="detailsEmail"></span></p>
+    <p><strong>Photo:</strong> <br><img id="detailsPhoto" src="" alt="Contact Photo" style="max-height: 100px; max-width: 100px; border-radius: 50%;"></p>
+</div>
+</section>
+<div id="pagination" class="pagination"></div>
+
+<script>
+    var contacts = JSON.parse("{{ contacts|escapejs }}");
+    let filteredData = contacts;
+
+    const itemsPerPage = 4;
+    let currentPage = 1;
+
+    function renderTable(data, page) {
+        const tableBody = document.querySelector("#contactTable tbody");
+        tableBody.innerHTML = "";
+
+        //НАСТРОЙКИ ДЛЯ ПАГИНАЦИИ
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+
+        const itemsToDisplay = data.slice(startIndex, endIndex);
+
+        itemsToDisplay.forEach(contact => {
+            const row = document.createElement("tr");
+
+            //ЧЕКБОКС ДЛЯ ВЫБОРА
+            const checkboxCell = document.createElement("td");
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.name = "selectContact";
+            checkbox.value = contact.id;
+            checkbox.dataset.fullName = `${contact.first_name} ${contact.last_name}`;
+            checkboxCell.appendChild(checkbox);
+            row.appendChild(checkboxCell);
+
+            //ФИО
+            const fullNameCell = document.createElement("td");
+            fullNameCell.textContent = `${contact.first_name} ${contact.last_name}`;
+            row.appendChild(fullNameCell);
+
+            //ОПИСАНИЕ
+            const descriptionCell = document.createElement("td");
+            descriptionCell.textContent = contact.description;
+            row.appendChild(descriptionCell);
+
+            //ТЕЛЕФОН
+            const phoneCell = document.createElement("td");
+            phoneCell.textContent = contact.phone_number;
+            row.appendChild(phoneCell);
+
+            //ПОЧТА
+            const emailCell = document.createElement("td");
+            emailCell.textContent = contact.email || "Not provided";
+            row.appendChild(emailCell);
+
+            //ФОТО
+            const photoCell = document.createElement("td");
+            const photo = document.createElement("img");
+            photo.src = contact.photo || "/media/images/contact.png";
+            photo.alt = `${contact.first_name} ${contact.last_name}`;
+            photo.style.width = "70px";
+            photo.style.height = "70px";
+            photoCell.appendChild(photo);
+            row.appendChild(photoCell);
+            tableBody.appendChild(row);
+        });
+
+        displayPagination(data, data.length, page);
+        rowListener();        
+    }
+
+    function displayPagination(data, totalItems, currentPage) {
+        const pagination = document.getElementById("pagination");
+        pagination.innerHTML = "";
+
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+        for (let i = 1; i <= totalPages; i++) {
+            const pageButton = document.createElement("button");
+            pageButton.textContent = i;
+            pageButton.classList.add("page-button");
+            if (i === currentPage) {
+                pageButton.classList.add("active");
+            }
+            pageButton.addEventListener("click", () => {
+                renderTable(data, i);
+            });
+            pagination.appendChild(pageButton);
+        }
+    }
+
+    function chooseAward() {
+        const selectedCheckboxes = document.querySelectorAll("input[name='selectContact']:checked");
+        if (selectedCheckboxes.length === 0) {
+            alert("Please select at least one employee to award.");
+            return;
+        }
+        
+        let awardedNames = [];
+
+        selectedCheckboxes.forEach(checkbox => {
+            awardedNames.push(checkbox.dataset.fullName);
+        });
+        
+        showPreloader();
+
+        setTimeout(() => {
+            hidePreloader();
+            const awardText = `The following employees have been awarded: ${awardedNames.join(", ")}.`;
+
+            const awardMessageDiv = document.getElementById("awardMessage");
+            awardMessageDiv.textContent = awardText;
+            awardMessageDiv.style.display = "block";
+
+            selectedCheckboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+        }, 500);
+        
+    }
+
+    function sortTable(column, order) {
+        const sortedData = [...contacts].sort((a, b) => {
+            const aValue = column === "fullName" ? `${a.first_name} ${a.last_name}` : a[column];
+            const bValue = column === "fullName" ? `${b.first_name} ${b.last_name}` : b[column];
+
+            if (aValue > bValue) return order === "asc" ? 1 : -1;
+            if (aValue < bValue) return order === "asc" ? -1 : 1;
+            return 0;
+        });
+
+        renderTable(sortedData, currentPage);
+    }
+
+    document.querySelectorAll("#contactTable thead th[data-column]").forEach(header => {
+        header.addEventListener("click", () => {
+            const column = header.dataset.column;
+            const currentOrder = header.dataset.order || "asc";
+            const newOrder = currentOrder === "asc" ? "desc" : "asc";
+
+            document.querySelectorAll("#contactTable thead th span").forEach(span => span.textContent = "")
+            const span = header.querySelector("span");
+            span.textContent = newOrder === "asc" ? "a-z" : "z-a";
+
+            header.dataset.order = newOrder;
+            
+            sortTable(column, newOrder);
+        });
+    });
+
+    document.getElementById("filterButton").addEventListener("click", () => {
+        const filterValue = document.getElementById("filterInput").value.toLowerCase();
+
+        filteredData = contacts.filter(contact =>
+            `${contact.first_name} ${contact.last_name}`.toLowerCase().includes(filterValue) ||
+            (contact.description).toLowerCase().includes(filterValue) ||
+            (contact.email || "Not provided").toLowerCase().includes(filterValue) 
+        );
+
+        showPreloader();
+
+        setTimeout(() => {
+            hidePreloader();
+            if (filteredData.length > 0) { renderTable(filteredData, currentPage); }
+            else {
+                const tableBody = document.querySelector("#contactTable tbody");
+                tableBody.innerHTML = "";
+                const emptyFilteredData = document.createElement("p");
+                emptyFilteredData.textContent = `There's no data that contains ${filterValue}` 
+                tableBody.appendChild(emptyFilteredData);
+                const pagination = document.getElementById("pagination");
+                pagination.innerHTML = "";
+            }
+        }, 1000);
+    
+    });
+
+    rowListener = () => {
+    document.querySelectorAll("#contactTable tbody tr").forEach(row => {
+        row.addEventListener("click", () => {
+            const contactInfo = document.getElementById("contactInfo");
+
+            if (row.classList.contains("active-row")) {
+                row.classList.remove("active-row");
+                row.style.backgroundColor = "#eaeaea";
+                contactInfo.style.display = "none";
+            } else {
+                document.querySelectorAll("#contactTable tbody tr").forEach(r => {
+                    r.classList.remove("active-row");
+                    r.style.backgroundColor = "#eaeaea";
+                });
+
+                row.classList.add("active-row");
+                row.style.backgroundColor = "#fff";
+
+                const fullName = row.children[1].textContent;
+                const description = row.children[2].textContent;
+                const phone = row.children[3].textContent;
+                const email = row.children[4].textContent;
+                const photoSrc = row.children[5].querySelector("img").src;
+
+                document.getElementById("detailsName").textContent = fullName;
+                document.getElementById("detailsDescription").textContent = description;
+                document.getElementById("detailsPhone").textContent = phone;
+                document.getElementById("detailsEmail").textContent = email;
+                document.getElementById("detailsPhoto").src = photoSrc;
+
+                contactInfo.style.display = "block";
+            }
+        });
+    });
+};
+
+
+    showForm = () => {
+            const form = document.getElementById("addForm");
+            form.style.display = form.style.display === "none" ? "flex" : "none"; 
+    };
+
+
+document.getElementById("photo").addEventListener("change", function () {
+    if (this.files.length > 0) {
+        const file = this.files[0];
+        const validExtensions = ["image/png", "image/jpeg", "image/jpg"];
+
+        if (validExtensions.includes(file.type)) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById("photo").dataset.photoUrl = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        } else {
+            this.value = ""; 
+            delete this.dataset.photoUrl; 
+            alert("Invalid image type. Select a PNG, JPEG, or JPG.");
+        }
+    }
+});
+
+document.getElementById("contactForm").addEventListener("submit", event => {
+    event.preventDefault();
+
+    const firstName = document.getElementById("firstName").value;
+    const lastName = document.getElementById("lastName").value;
+    const description = document.getElementById("description").value;
+    const phoneNumber = document.getElementById("phoneNumber").value;
+    const email = document.getElementById("email").value || "Not provided";
+
+    const photoInput = document.getElementById("photo");
+    const photoUrl = photoInput.dataset.photoUrl || "/media/images/contact.png";
+
+    const newContact = {
+        id: contacts.length + 1,
+        first_name: firstName,
+        last_name: lastName,
+        description: description,
+        phone_number: phoneNumber,
+        email: email,
+        photo: photoUrl
+    };
+
+    contacts.push(newContact);
+
+    showPreloader();
+
+    setTimeout(() => {
+        hidePreloader();
+        document.getElementById("addForm").style.display = "none";
+        renderTable(contacts, currentPage);
+    }, 1000);
+        
+});
+
+    document.getElementById("phoneNumber").addEventListener("input", () => {
+            const phoneNumber = document.getElementById("phoneNumber").value;
+            phoneValidationResult = validatePhoneNumber(phoneNumber);
+
+            checkFormValidity();
+            const addButton = document.getElementById("addContactButton");
+            const validationResultElement = document.getElementById("validationResult");
+
+            if (!phoneValidationResult.isValid) {
+                document.getElementById("phoneNumber").style.border = "2px solid red";
+                document.getElementById("phoneNumber").style.color = "#551e1e"
+                document.getElementById("phoneNumber").style.backgroundColor = "#f8d7da";
+                addButton.disabled = true;
+                validationResultElement.textContent = phoneValidationResult.message;
+            } else {
+                document.getElementById("phoneNumber").style.border = "1px solid #ddd";
+                document.getElementById("phoneNumber").style.backgroundColor = "";
+                document.getElementById("phoneNumber").style.color = " #eaeaea";
+                validationResultElement.textContent = "";
+            }
+    });
+
+    document.getElementById("email").addEventListener("input", () => {
+        const email = document.getElementById("email").value;
+        emailValidationResult = validateEmail(email);
+
+        const addButton = document.getElementById("addContactButton");
+        const validationResultElement = document.getElementById("validationResult");
+
+        if (!email) {
+            checkFormValidity();
+            document.getElementById("email").style.border = "1px solid #ddd";
+            document.getElementById("email").style.backgroundColor = "";
+            validationResultElement.textContent = "";
+
+        } else {
+    
+            if(!emailValidationResult.isValid) {
+                document.getElementById("email").style.border = "2px solid red";
+                document.getElementById("email").style.color = "#551e1e"
+                document.getElementById("email").style.backgroundColor = "#f8d7da";
+                addButton.disabled = true;
+                validationResultElement.textContent = emailValidationResult.message;
+            } else {
+                document.getElementById("email").style.border = "1px solid #ddd";
+                document.getElementById("email").style.backgroundColor = "";
+                document.getElementById("email").style.color = " #eaeaea";
+                validationResultElement.textContent = "";
+                checkFormValidity();
+            }
+           
+        }
+    });
+
+    function validatePhoneNumber(phoneNumber) {
+        const phoneRegex = /^(8|\+375)(\s|\()?(\d{2})(\s|\))?(\d{3})(\s|\-)?(\d{2})(\s|\-)?(\d{2})$/;
+        if (phoneRegex.test(phoneNumber)) {
+            return { isValid: true, message: "Valid phone number." };
+        } else {
+            return { isValid: false, message: "Invalid phone number." };
+        }
+    }
+
+    function validateEmail(email) {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (emailRegex.test(email)) {
+            return { isValid: true, message: "Valid email address." };
+        } else {
+            return { isValid: false, message: "Invalid email address." };
+        }
+    }
+
+    checkFormValidity = () => {
+        const firstName = document.getElementById("firstName").value.trim();
+        const lastName = document.getElementById("lastName").value.trim();
+        const description = document.getElementById("description").value.trim();
+        const phoneNumber = document.getElementById("phoneNumber").value.trim();
+        const email = document.getElementById("email").value.trim() || "Not provided";
+
+        const addButton = document.getElementById("addContactButton");
+
+        if (firstName && lastName && description && phoneNumber && email) {
+            addButton.disabled = false;
+        } else {
+            addButton.disabled = true;
+        }
+    }
+
+    document.querySelectorAll("#contactForm input").forEach(input => {
+        if (input.id == "phoneNumber" || input.id == "photo" || input.id == "email") {
+            
+        }
+        else 
+        {
+            input.addEventListener("input", () => {
+                checkFormValidity();
+                const addButton = document.getElementById("addContactButton");
+            
+                const validationResultElement = document.getElementById("validationResult");
+
+                if (input.value.length > 2){
+                    input.style.border = "1px solid #ddd";
+                    input.style.color = "#eaeaea";
+                    input.style.backgroundColor = "";
+                    validationResultElement.textContent = "";
+                } else {
+                    input.style.border = "2px solid red";
+                    input.style.color = "#551e1e"
+                    input.style.backgroundColor = "#f8d7da";
+                    addButton.disabled = true;
+                    validationResultElement.textContent = `${input.id} is required`;
+                }
+            });
+        }
+    });
+
+    const preloader = document.getElementById("preloader");
+
+    function showPreloader() {
+        preloader.classList.add("show");
+    }
+
+    function hidePreloader() {
+        preloader.classList.remove("show");
+    }
+
+    renderTable(contacts, currentPage);
+
+</script>
+{% endblock content %}

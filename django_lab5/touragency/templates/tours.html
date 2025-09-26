@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Tours{% endblock title %}
+{% block header %}Tours{% endblock header %}
+
+{% block content %}
+<section style="
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+">
+<form class="filter-form" action="{% url 'tours' %}" method="get">
+    <label for="min_price">Min price</label>
+    <input type="number" min = "0" step="100" id="min_price" name="min_price" value="{{request.GET.min_price|default_if_none:0}}">
+    <label for="max_price">Max price</label>
+    <input type="number" min = "100" step="100" id="max_price" name="max_price" value="{{request.GET.max_price|default_if_none:100000}}">
+    <select name="country_id">
+        <option disabled selected>Choose a country:</option>
+        {% for country in countries %}
+            <option value="{{ country.id }}">{{ country.name }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Search</button>
+    <a href="{% url 'tours' %}">Reset</a>
+</form>
+<section id="tour-wrapper" class="tour-wrapper">
+    <!-- {% for tour in tours %}
+        <a href="{% url 'tour' pk=tour.id %}" class="tour-container" style="background-image: url('{{ tour.photo.url }}'); ">
+            <span style="font-weight: bold; font-size: 30px;">{{ tour.name }}</span>
+            <hr>
+            <p>Visit a {{ tour.country }}</p>
+            <p>Stay in a {{ tour.hotel }} hotel with {{ tour.hotel_stars }}★</p>
+            <p>Duration is {{ tour.duration_weeks }} weeks</p>
+            <p style="position: relative; top: 150px; font-size: larger;">For <span style="font-weight: bold; font-size: 20px;">{{ tour.price }}$</span> / person</p>
+        </a>
+    {% endfor %} -->
+</section>
+
+<div id="pagination" class="pagination">
+
+</div>
+
+</section>
+<script>
+    var tours = JSON.parse("{{toursjson|escapejs}}"); 
+    const baseUrl = "{% url 'tour' pk=0 %}".replace(/0\/$/, "");
+</script>
+{% endblock content %}
+
+{% block script %}
+<script src="/static/js/tourscript.js"></script>
+{% endblock script %}

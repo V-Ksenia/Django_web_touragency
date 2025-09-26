@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Order Detail{% endblock title %}
+{% block header %}Order Detail{% endblock header %}
+
+{% block content %}
+<section style="
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+align-items: center;
+text-align: center;
+margin: 20px;
+gap: 20px;
+">
+    <form method="post" class="tour-form" style="width: 400px;">
+    <h1>Number: {{ order.number }}</h1>
+    <p>Tour name: {{ order.tour.name }}</p>
+    <p>Price: {{ order.price }}$</p>
+    <p>Amount: {{ order.amount }}</p>
+    <p>Date: {{ order.departure_date }}</p>
+    <p>Created on: {{ order.date }}</p>  
+        {% csrf_token %}
+        <p><input type="checkbox" name="confirmation" value="delete" required>Confirm delete </p>
+        <button type="submit">Delete</button> <a href="{% url 'user_orders' pk=user.pk %}" style="color: #333;">My orders</a>
+    </form>
+</section>
+{% endblock content %}

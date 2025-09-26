@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Countries{% endblock title %}
+{% block header %}Countries{% endblock header %}
+
+{% block content %}
+<article>
+    {% for country in countries %}
+    <div>
+        <p><b>{{ country.name }}</b></p>
+        <p>climate: {{ country.climate }}</p>
+        <hr>
+    </div>
+    {% endfor %}
+</article>
+{% endblock content %}

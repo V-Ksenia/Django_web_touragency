@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Tour{% endblock title %}
+{% block header %}Tour{% endblock header %}
+
+{% block content %}
+{% for tour in tours %}
+<section id="specific-tour" style="background-image: url('{{ tour.photo }}');  
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+background-color: rgba(26, 26, 26, 0.574); 
+background-blend-mode: overlay; ">
+    <div class="specific-tour-container">
+        <div class="tour-details">
+            <h1 style="font-size: 30px;">{{ tour.name }}</h1>
+            <p>{{ tour.country }}</p>
+            <p>{{ tour.hotel }} {{ tour.stars_sign }}</p>
+            <p>Duration is {{ tour.duration_weeks }} weeks</p>        
+            <p><b>{{ tour.amount_of_trips }}</b> trips available</p>
+            <p><span style="font-weight: bold; font-size: 24px;">{{ tour.price }}$</span> / person</p>
+            {% if tour.amount_of_trips > 0 %}
+            <form class="addreview-button" action="{%url 'create_order' pk=tour.id %}" method="get">
+                <button type="submit">Make an order</button>
+            </form>
+            {% endif %}
+        </div>
+        <hr style="height: 90%; color: #333;">
+        <div class="tour-description">
+            <p style="    columns: 100px 2;">{{ tour.description}}</p>
+            <!-- <img src="{{ tour.photo }}" width="100%" height="10%" style="border-radius: 30px;">  -->
+            <div id="map" style="width: 500px; height: 300px;"></div>      
+        </div>
+        
+    </div>  
+</section>
+{% endfor %}
+<script>
+    var tours = JSON.parse("{{toursjson|escapejs}}"); 
+</script>
+<script src="/static/js/mapscript.js"></script>
+
+{% endblock content %}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/media/images/logo2.png">
+    <link rel="stylesheet" href="/static/css/styles.css" type="text/css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <title>{% block title %}Default title{% endblock title %}</title>
+    {% block style %}{% endblock style %}
+</head>
+
+<body>
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+    <nav class="navbar"> 
+        <header class="company-name">TripVoyage</header>
+        {% if request.user.is_authenticated %}
+        <p>Welcome, <strong>{{ request.user.username }}</strong></p>
+        {% endif %}
+        <ul class="nav-list">
+            {% if not request.user.is_authenticated  %}
+            <li><a href="{%url 'registration_step1' %}">register</a></li>
+            <li><a href="{%url 'login' %}">login</a></li>
+            {% endif %}
+            {% if request.user.is_authenticated  %}
+            <li><a href="{%url 'logout' %}">logout</a></li>
+            {% endif %}
+            <li><a href="{% url 'home' %}">home</a></li>
+            <li><a href="{% url 'about' %}">about</a></li>
+            <li><a href="{% url 'news' %}">news</a></li>
+            <li><a href="{% url 'terms' %}">faq</a></li>
+            <li><a href="{% url 'vacancies' %}">vacancies</a></li>
+            <li><a href="{% url 'reviews' %}">reviews</a></li>
+            <li><a href="{% url 'tours' %}">tours</a></li>
+            <li><a href="{% url 'promocodes' %}">promocodes</a></li>
+            {% if request.user.is_authenticated and request.user.status == 'client' %}
+            <li><a href="{% url 'user_orders' pk=request.user.id %}">your orders</a></li>
+            {% endif %}
+            {% if request.user.is_authenticated and request.user.is_superuser %}
+            <li><a href="{% url 'sales' %}">sales</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+<main>
+    {% block content%}{% endblock content %}
+</main>
+<footer style="position: relative;">
+    <img src="/media/images/stonepng.png" style="
+            position: absolute;
+            bottom: 0px;
+            left: 0;
+            z-index: 20;
+        ">
+    <img src="/media/images/stonepng2.png" style="
+        position: absolute;
+        bottom: 0px;
+        right: 0;
+        z-index: 20;
+    ">
+    <div class="countdown" id="countdown" style="font-size: 18px;
+    text-align: center;">Loading...</div>
+    <b style="
+        font-size: 18px;
+        padding: 10px;
+    ">© 2024 TripVoyage. All rights reserved.
+    <a href="{% url 'privacy_policy' %}">privacy policy</a>|
+    <a href="{% url 'contacts' %}">contacts</a>
+</b>
+</footer>
+<script src="/static/js/timerscript.js"></script>
+<script src="/static/js/preloader.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+{% block script %}{% endblock script %}
+</body>
+</html>

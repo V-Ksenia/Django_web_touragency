@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Reviews{% endblock title %}
+{% block header %}Reviews{% endblock header %}
+
+{% block content %}
+<section id="reviews">
+    <h1>Reviews</h1>
+    <div class="review-container">
+    {% for review in reviews %}
+        <div>
+            <h2>{{ review.title }}</h2>
+            <p>{{ review.text }}</p>
+            <p><b>{{ review.rating }}/5★</b></p>
+            <p style="font-size: 18px;"><b>{{ review.user.username }}</b></p>
+            <p>Posted: {{ review.date }} </p>
+            {% if request.user.id == review.user_id %}
+            <a href="{% url 'edit_review' pk=review.user_id jk=review.id %}" style="
+                position: absolute;
+                bottom: 0;
+                right: 0;           
+            ">Edit review</a>
+        {% endif %}
+        </div>
+    {% endfor %}
+    </div>
+    <form class="addreview-button" action="{% url 'add_review' %}" method="get">
+        <button type="submit">Write a review</button>
+    </form>
+</section>
+{% endblock content %}
